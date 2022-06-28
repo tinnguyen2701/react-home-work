@@ -7,7 +7,8 @@ export interface ISelectProp {
 
 interface selectProps<T> {
     datasource: T[],
-    onChanged: (value: string) => void
+    isLoading?: boolean;
+    onChanged: (value: string) => void,
 }
 
 export const SelectWrapped = (props: selectProps<ISelectProp>) => {
@@ -21,14 +22,15 @@ export const SelectWrapped = (props: selectProps<ISelectProp>) => {
             optionFilterProp="children"
             filterOption={(input, option) => (option!.children as unknown as string).includes(input)}
             filterSort={(optionA, optionB) =>
-            (optionA!.children as unknown as string)
+                (optionA!.children as unknown as string)
                 .toLowerCase()
                 .localeCompare((optionB!.children as unknown as string).toLowerCase())
             }
+            loading = {props.isLoading}
             onChange={(e) => props.onChanged(e)}
         >
             {
-                props.datasource.map((option, index) => <Option key={index} value={option.value}>{option.label}</Option>)
+                props.datasource && props.datasource.length > 0 && props.datasource.map((option, index) => <Option key={index} value={option.value}>{option.label}</Option>)
             }
         </Select>
     );

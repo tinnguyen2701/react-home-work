@@ -16,6 +16,22 @@ app.get('/', (req, res) => {
     res.send("helo");
 });
 
+
+app.get('/api/classes', async (req, res) => {
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    return res.json(
+        {
+            data: [
+                {label: "class 01", value: "1"},
+                {label: "class 02", value: "2"},
+                {label: "class 03", value: "3"},
+                {label: "class 04", value: "4"},
+                {label: "class 05", value: "5"},
+            ], 
+            abc: "trying to convert transform response from react toolkit query"
+        });
+});
+
 app.get('/api/students', (req, res) => {
     var {classId} = req.query;
 
