@@ -1,21 +1,21 @@
 import { combineReducers, configureStore, getDefaultMiddleware, PreloadedState } from "@reduxjs/toolkit";
 import { classApi } from "./services/classApi";
+import { studentApi } from "./services/studentApi";
 // import counterReducer from "../features/counter/counterSlice"
-
-
-
 
 const rootReducer = combineReducers({
     // counter: counterReducer,
-    [classApi.reducerPath]: classApi.reducer
+    [classApi.reducerPath]: classApi.reducer,
+    [studentApi.reducerPath]: studentApi.reducer
 })
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
     return configureStore({
         reducer: rootReducer,
-        middleware: (getDefaultMiddleware) => 
-            getDefaultMiddleware().concat(classApi.middleware),
-            preloadedState
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
+            classApi.middleware, 
+            studentApi.middleware), 
+        preloadedState
     })
 }
 
