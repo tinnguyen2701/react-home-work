@@ -126,20 +126,29 @@ let RegistrationForm: (props: FormikProps<FormModel>) => JSX.Element = ({handleS
   const { data: classes } = useGetAllClassesQuery({});  
 
   return (<form onSubmit={handleSubmit}>
-    <label>First Name</label>
-    <Field name="firstName" />
-    {errors.firstName && touched.firstName ? (
-             <div>{errors.firstName}</div>
-           ) : null}
-    <label>Last Name</label>
-    <Field name="lastName" />
-    {touched.lastName && errors.lastName ? (
-      <div>{errors.lastName}</div>
-    ) : null}
-    <label>Class Id</label>
-     <Field as="select" name="classId">
-        {classes && classes.map((classItem: ISelectProp, index: number) => <option value={classItem.value} key={index}>{classItem.label}</option>)}
-      </Field>
+    <div>
+      <label>First Name</label>
+      <Field name="firstName" />
+      {errors.firstName && touched.firstName ? (
+              <div>{errors.firstName}</div>
+            ) : null}
+    </div>
+    
+    <div>
+      <label>Last Name</label>
+      <Field name="lastName" />
+      {touched.lastName && errors.lastName ? (
+        <div>{errors.lastName}</div>
+      ) : null}
+    </div>
+    
+    <div>
+      <label>Class Id</label>
+      <Field as="select" name="classId">
+          {classes && classes.map((classItem: ISelectProp, index: number) => <option value={classItem.value} key={index}>{classItem.label}</option>)}
+        </Field>
+    </div>
+    
   </form>)
 }
 

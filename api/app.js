@@ -8,14 +8,13 @@ const app = express();
 // connect db
 
 // middleware
-app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
     res.send("helo");
 });
-
 
 app.get('/api/classes', async (req, res) => {
     await new Promise(resolve => setTimeout(resolve, 5000));
@@ -57,6 +56,30 @@ app.get('/api/students', async (req, res) => {
 
     return res.json({ data });
 });
+
+app.post('/api/auth/register', async (req, res) => {
+    console.log(req.body);
+});
+
+app.post('/api/auth/login', async (req, res) => {
+    console.log(req.body);
+    await new Promise(resolve => setTimeout(resolve, 4000));
+
+    res.writeHead(200, "OK", {'Content-Type': 'text/plain'});
+    res.end();
+});
+
+app.post('/api/auth/logoutUser', async (req, res) => {
+    console.log(req.body);
+});
+
+app.get('/api/users/me', async (req, res) => {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    return res.json({id: 1, name: 'tin-nguyen', email: 'blah@gmail.com', role: 'admin'});
+});
+
+
 
 // start server
 const PORT_SERVER = 3001;

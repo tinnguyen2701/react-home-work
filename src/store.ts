@@ -1,12 +1,16 @@
 import { combineReducers, configureStore, getDefaultMiddleware, PreloadedState } from "@reduxjs/toolkit";
+import { authApi } from "./services/authApi";
 import { classApi } from "./services/classApi";
 import { studentApi } from "./services/studentApi";
-// import counterReducer from "../features/counter/counterSlice"
+import { userApi } from "./services/userApi";
+import userReducer from './slices/userSlice';
 
 const rootReducer = combineReducers({
-    // counter: counterReducer,
     [classApi.reducerPath]: classApi.reducer,
-    [studentApi.reducerPath]: studentApi.reducer
+    [studentApi.reducerPath]: studentApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
+    userState: userReducer
 })
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
@@ -14,7 +18,9 @@ export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
         reducer: rootReducer,
         middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
             classApi.middleware, 
-            studentApi.middleware), 
+            studentApi.middleware,
+            userApi.middleware,
+            authApi.middleware), 
         preloadedState
     })
 }
