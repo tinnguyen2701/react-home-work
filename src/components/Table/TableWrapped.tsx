@@ -6,9 +6,10 @@ interface tableProps {
     columns: any[],
     data: any[],
     rowSelection: object
+    getRowKey: () => string
+    
     selectionType?: 'checkbox' | 'radio'
     isLoading?: boolean,
-    getRowKey: () => string
 }
 
 export const TableWrapped = ({columns, data, rowSelection, selectionType = 'checkbox', isLoading, getRowKey, ...props }: tableProps) => {

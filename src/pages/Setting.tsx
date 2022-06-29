@@ -1,6 +1,8 @@
-import { Divider } from "antd";
+import { Button, Divider, Modal } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { useRef, useState } from "react";
+import ButtonWrapped from "../components/Button/ButtonWrapped";
+import ModalWrapped from "../components/Modal/ModalWrapped";
 import { SelectWrapped } from "../components/Select/SelectWrapped";
 import { TableWrapped } from "../components/Table/TableWrapped";
 import { useGetAllClassesQuery } from "../services/classApi";
@@ -55,9 +57,38 @@ export const SettingsPage = () => {
         },
       ];
 
+      const [visible, setVisible] = useState(false);
+
+      const showModal = () => {
+        setVisible(true);
+      };
+
+      const [confirmLoading, setConfirmLoading] = useState(false);
+      const [modalText, setModalText] = useState('Content of the modal');
+
+      const handleOk = () => {
+        setModalText('The modal will be closed after two seconds');
+        setConfirmLoading(true);
+        setTimeout(() => {
+          setVisible(false);
+          setConfirmLoading(false);
+        }, 2000);
+      };
+    
+      const handleCancel = () => {
+        console.log('Clicked cancel button');
+        setVisible(false);
+      };
+
     return (
         <>
             <SelectWrapped onChanged={onChangeDropdown} datasource={classes} isLoading={isLoadingClasses} showSearch={true} style={{width: 400}}/>
+
+            <ButtonWrapped type={"primary"} style={{float: "right"}} onClick={showModal}>Add new student</ButtonWrapped>
+
+            <ModalWrapped title="Title" visible={visible} onOk={handleOk} confirmLoading={confirmLoading} onCancel={handleCancel}>
+              <p>{modalText}</p>
+            </ModalWrapped >
 
             <Divider />
 
