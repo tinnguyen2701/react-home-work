@@ -15,4 +15,4 @@ export const studentApi = createApi({
 
 })
 
-export const { useGetAllStudentByClassIdQuery } = studentApi
+export const { useGetAllStudentByClassIdQuery, usePrefetch } = studentApi
