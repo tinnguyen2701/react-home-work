@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { logout } from '../slices/userSlice';
 import { IGenericResponse } from '../types';
 import { BasePathAPIUrl } from '../utils/constants';
 import { userApi } from './userApi';
@@ -30,11 +31,10 @@ export const authApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {  
         try {
           await queryFulfilled;
-          await dispatch(userApi.endpoints.getMe.initiate(null));
-
-          window.localStorage.setItem('user', JSON.stringify({name: "tin"}));
+          // await dispatch(userApi.endpoints.getMe.initiate(null));
+          // window.localStorage.setItem('user', JSON.stringify({name: "tin"}));
           // navigate("/dashboard/profile", { replace: true });
-          window.location.href = "/dashboard/settings"
+          // window.location.href = "/dashboard/settings"
         } catch (error) {}
       },
     }),
@@ -45,6 +45,9 @@ export const authApi = createApi({
           credentials: 'include',
         };
       },
+      onQueryStarted(args, { dispatch, queryFulfilled }) {
+        dispatch(logout());
+      }
     }),
   }),
 });

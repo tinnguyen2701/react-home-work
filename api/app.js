@@ -1,9 +1,33 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 
 // init app
 const app = express();
+
+
+app.use(cookieParser());
+
+// Cookie options
+const accessTokenCookieOptions = {
+  expires: new Date(
+    Date.now() + 1 * 60 * 1000
+  ),
+  maxAge: 1 * 60 * 1000,
+  httpOnly: true,
+  sameSite: 'lax',
+};
+
+const refreshTokenCookieOptions = {
+  expires: new Date(
+    Date.now() + 59 * 60 * 1000
+  ),
+  maxAge: 59 * 60 * 1000,
+  httpOnly: true,
+  sameSite: 'lax',
+};
+
 
 // connect db
 
@@ -65,18 +89,29 @@ app.post('/api/auth/login', async (req, res) => {
     console.log(req.body);
     await new Promise(resolve => setTimeout(resolve, 4000));
 
-    res.writeHead(200, "OK", {'Content-Type': 'text/plain'});
-    res.end();
+    // create access_token + refresh_token
+    res.cookie('access_token', "access_token_fake", accessTokenCookieOptions);
+    res.cookie('refresh_token', "refresh_token_fake", refreshTokenCookieOptions);
+    res.cookie('logged_in', true, {
+      ...accessTokenCookieOptions,
+      httpOnly: false,
+    });
+
+    res.status(200).json({
+        status: 'success',
+        access_token: "access_token_fake",
+      });
 });
 
-app.post('/api/auth/logoutUser', async (req, res) => {
-    console.log(req.body);
+app.get('/api/auth/logout', async (req, res) => {
+    res.cookie('access_token', '', { maxAge: 1 });
+    res.cookie('refresh_token', '', { maxAge: 1 });
+    res.cookie('logged_in', '', { maxAge: 1 });
+    res.status(200).json({ status: 'success' });
 });
 
 app.get('/api/users/me', async (req, res) => {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    return res.json({id: 1, name: 'tin-nguyen', email: 'blah@gmail.com', role: 'admin'});
+  return res.json({id: 1, name: 'tin-nguyen', email: 'blah@gmail.com', role: 'admin'});
 });
 
 

@@ -1,9 +1,10 @@
 import { Navigate, useOutlet } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { useAppSelector } from "../hooks/appHook";
+import { userApi } from "../services/userApi";
 import { AppBar } from "./AppBar";
 
 export const HomeLayout = () => {
-  const { user } = useAuth();
+  const user = useAppSelector(state => state.userState.user);
   const outlet = useOutlet();
 
   if (user) {

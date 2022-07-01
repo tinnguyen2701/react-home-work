@@ -7,8 +7,26 @@ import { LoginPage } from "./pages/Login";
 import { ProfilePage } from "./pages/Profile";
 import { SettingsPage } from "./pages/Setting";
 import 'antd/dist/antd.min.css';
+import { userApi } from "./services/userApi";
+import { useCookies } from 'react-cookie';
 
 function App() {
+  const [cookies] = useCookies(['logged_in']);
+  const { isLoading, isFetching } = userApi.endpoints.getMe.useQuery(null, {
+    skip: false,
+    refetchOnMountOrArgChange: true,
+  });
+
+  const loading = isLoading || isFetching;
+
+  const user = userApi.endpoints.getMe.useQueryState(null, {
+    selectFromResult: ({ data }) => data,
+  });
+
+  if (loading) {
+    return <h1>.....loading.......</h1>;
+  }
+
   return (
     <Routes>
       <Route element={<HomeLayout />}>
@@ -16,10 +34,14 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
       </Route>
 
-      <Route path="/dashboard" element={<ProtectedLayout />}>
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="settings" element={<SettingsPage />} />
-      </Route>
+      {
+        (cookies.logged_in || user) &&
+          <Route path="/dashboard" element={<ProtectedLayout />}>
+            <Route path="profile" element={<ProfilePage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
+      }
+      
     </Routes>
   );
 }

@@ -14,7 +14,6 @@ interface tableProps {
 }
 
 export const TableWrapped = React.memo(({columns, data, rowSelection, selectionType = 'checkbox', isLoading, getRowKey, ...props }: tableProps) => {
-  console.log("table");
   return (
     <div>
         <StyledTable 

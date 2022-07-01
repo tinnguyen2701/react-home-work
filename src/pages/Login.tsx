@@ -1,10 +1,13 @@
 import { useEffect } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { useAppDispatch } from "../hooks/appHook";
 import { useLoginUserMutation } from "../services/authApi";
+import { userApi } from "../services/userApi";
 
 export const LoginPage = () => {
   // const { login } = useAuth();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [
     loginUser, // This is the mutation trigger
     { isLoading: isLoging, isError: isErrorLogin }, // This is the destructured mutation result
@@ -19,19 +22,18 @@ export const LoginPage = () => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    loginUser({email: "123", password: "456"});
-    // login({
-    //   email: "123",
-    //   password: "456"
-    // });
+    loginUser({email: "123", password: "456"}).unwrap().then(async () => {
+        await dispatch(userApi.endpoints.getMe.initiate(null));
+        navigate("/dashboard/profile", {replace: true});
+    });
   };
 
   return (
     <div>
         <h1>Login Page</h1>
         <form>
-            <input type="text" id="email" name="email" placeholder="..email.." />
-            <input type="password" id="password" name="password" placeholder="..password.." />
+            {/* <input type="text" id="email" name="email" placeholder="..email.." />
+            <input type="password" id="password" name="password" placeholder="..password.." /> */}
             <p>
                 <button type="submit" onClick={(e) => handleSubmit(e)}>Login In</button>
             </p>
