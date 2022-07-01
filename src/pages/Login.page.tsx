@@ -1,11 +1,10 @@
 import { useEffect } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../hooks/appHook";
-import { useLoginUserMutation } from "../services/authApi";
-import { userApi } from "../services/userApi";
+import { useLoginUserMutation } from "../redux/api/authApi";
+import { userApi } from "../redux/api/userApi";
 
 export const LoginPage = () => {
-  // const { login } = useAuth();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [

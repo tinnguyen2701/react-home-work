@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { BasePathAPIUrl } from '../utils/constants'
+import { BasePathAPIUrl } from '../../utils/constants'
 
 
 export const studentApi = createApi({

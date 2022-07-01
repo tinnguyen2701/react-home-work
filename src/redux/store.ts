@@ -1,8 +1,8 @@
-import { combineReducers, configureStore, getDefaultMiddleware, PreloadedState } from "@reduxjs/toolkit";
-import { authApi } from "./services/authApi";
-import { classApi } from "./services/classApi";
-import { studentApi } from "./services/studentApi";
-import { userApi } from "./services/userApi";
+import { combineReducers, configureStore, PreloadedState } from "@reduxjs/toolkit";
+import { authApi } from "./api/authApi";
+import { classApi } from "./api/classApi";
+import { studentApi } from "./api/studentApi";
+import { userApi } from "./api/userApi";
 import userReducer from './slices/userSlice';
 
 const rootReducer = combineReducers({

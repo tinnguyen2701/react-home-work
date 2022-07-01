@@ -1,6 +1,5 @@
 import { Navigate, useOutlet } from "react-router-dom";
 import { useAppSelector } from "../hooks/appHook";
-import { userApi } from "../services/userApi";
 import { AppBar } from "./AppBar";
 
 export const ProtectedLayout = () => {

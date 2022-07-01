@@ -6,8 +6,8 @@ import ButtonWrapped from "../components/Button/ButtonWrapped";
 import ModalWrapped from "../components/Modal/ModalWrapped";
 import { ISelectProp, SelectWrapped } from "../components/Select/SelectWrapped";
 import { TableWrapped } from "../components/Table/TableWrapped";
-import { useGetAllClassesQuery } from "../services/classApi";
-import { useGetAllStudentByClassIdQuery, usePrefetch } from "../services/studentApi";
+import { useGetAllClassesQuery } from "../redux/api/classApi";
+import { useGetAllStudentByClassIdQuery, usePrefetch } from "../redux/api/studentApi";
 import * as Yup from 'yup';
 
 

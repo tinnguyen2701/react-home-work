@@ -90,10 +90,10 @@ app.post('/api/auth/login', async (req, res) => {
     await new Promise(resolve => setTimeout(resolve, 4000));
 
     // create access_token + refresh_token
-    res.cookie('access_token', "access_token_fake", accessTokenCookieOptions);
-    res.cookie('refresh_token', "refresh_token_fake", refreshTokenCookieOptions);
+    res.cookie('access_token', "access_token_fake");
+    res.cookie('refresh_token', "refresh_token_fake");
     res.cookie('logged_in', true, {
-      ...accessTokenCookieOptions,
+      // ...accessTokenCookieOptions,
       httpOnly: false,
     });
 
@@ -104,6 +104,7 @@ app.post('/api/auth/login', async (req, res) => {
 });
 
 app.get('/api/auth/logout', async (req, res) => {
+    console.log("logout")
     res.cookie('access_token', '', { maxAge: 1 });
     res.cookie('refresh_token', '', { maxAge: 1 });
     res.cookie('logged_in', '', { maxAge: 1 });
@@ -111,7 +112,7 @@ app.get('/api/auth/logout', async (req, res) => {
 });
 
 app.get('/api/users/me', async (req, res) => {
-  return res.json({id: 1, name: 'tin-nguyen', email: 'blah@gmail.com', role: 'admin'});
+  return res.json({id: 1, name: 'tin-nguyen', email: 'blah@gmail.com', role: 'user'});
 });
 
 

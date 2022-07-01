@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../hooks/appHook";
-import { useLogoutUserMutation } from "../services/authApi";
+import { useLogoutUserMutation } from "../redux/api/authApi";
 
 export const AppBar = ({ pages }: {pages: any}) => {
   const navigate = useNavigate();

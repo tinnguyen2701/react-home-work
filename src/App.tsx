@@ -1,47 +1,33 @@
 import { Routes, Route } from "react-router-dom";
-import './App.css';
-import { HomeLayout } from "./components/HomeLayout";
-import { ProtectedLayout } from "./components/ProtectedLayout";
-import { HomePage } from "./pages/Home";
-import { LoginPage } from "./pages/Login";
-import { ProfilePage } from "./pages/Profile";
-import { SettingsPage } from "./pages/Setting";
 import 'antd/dist/antd.min.css';
-import { userApi } from "./services/userApi";
-import { useCookies } from 'react-cookie';
+import './App.css';
+import { HomePage } from "./pages/Home.page";
+import { LoginPage } from "./pages/Login.page";
+import { ProfilePage } from "./pages/Profile.page";
+import { SettingsPage } from "./pages/Setting.page";
+import Layout from "./components/Layout";
+import RequireUser from "./components/requireUser";
+import AdminPage from "./pages/admin.page";
+import UnauthorizePage from "./pages/unauthorize.page";
 
 function App() {
-  const [cookies] = useCookies(['logged_in']);
-  const { isLoading, isFetching } = userApi.endpoints.getMe.useQuery(null, {
-    skip: false,
-    refetchOnMountOrArgChange: true,
-  });
-
-  const loading = isLoading || isFetching;
-
-  const user = userApi.endpoints.getMe.useQueryState(null, {
-    selectFromResult: ({ data }) => data,
-  });
-
-  if (loading) {
-    return <h1>.....loading.......</h1>;
-  }
-
   return (
     <Routes>
-      <Route element={<HomeLayout />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
+      <Route path='/' element={<Layout />}>
+        <Route index element={<HomePage />} />
+
+        {/* Private Route */}
+        <Route element={<RequireUser allowedRoles={['user', 'admin']} />}>
+          <Route path='/dashboard/profile' element={<ProfilePage />} />
+          <Route path='/dashboard/settings' element={<SettingsPage />} />
+        </Route>
+        <Route element={<RequireUser allowedRoles={['admin']} />}>
+          <Route path='admin' element={<AdminPage />} />
+        </Route>
+        <Route path='unauthorized' element={<UnauthorizePage />} />
       </Route>
 
-      {
-        (cookies.logged_in || user) &&
-          <Route path="/dashboard" element={<ProtectedLayout />}>
-            <Route path="profile" element={<ProfilePage />} />
-            <Route path="settings" element={<SettingsPage />} />
-          </Route>
-      }
-      
+      <Route path='login' element={<LoginPage />} />
     </Routes>
   );
 }
