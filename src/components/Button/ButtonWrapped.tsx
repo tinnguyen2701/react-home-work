@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyledButton } from './styles';
-
+import { isEqual } from 'lodash'
 
 interface buttonProps {
     type?: "link" | "text" | "default" | "ghost" | "primary" | "dashed" | undefined,
@@ -9,20 +9,18 @@ interface buttonProps {
     onClick: () => void
 }
 
-export const ButtonWrapped = ({type, style, children, onClick, ...props }: buttonProps) => {
 
+export const ButtonWrapped = React.memo(({type, style, children, onClick, ...props}: buttonProps) => {
   return (
-    <div>
-        <StyledButton
-            type={type}
-            style={style}
-            onClick={() => onClick()}
-            {...props}
-        >
-            {children}
-        </StyledButton>
-    </div>
+      <StyledButton
+          type={type}
+          style={style}
+          onClick={() => onClick()}
+          {...props}
+      >
+          {children}
+      </StyledButton>
   );
-};
+}, isEqual)
 
 export default ButtonWrapped;

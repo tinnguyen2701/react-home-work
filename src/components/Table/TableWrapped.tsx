@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyledTable } from './styles';
+import { isEqual } from 'lodash'
 
 
 interface tableProps {
@@ -12,8 +13,8 @@ interface tableProps {
     isLoading?: boolean,
 }
 
-export const TableWrapped = ({columns, data, rowSelection, selectionType = 'checkbox', isLoading, getRowKey, ...props }: tableProps) => {
-
+export const TableWrapped = React.memo(({columns, data, rowSelection, selectionType = 'checkbox', isLoading, getRowKey, ...props }: tableProps) => {
+  console.log("table");
   return (
     <div>
         <StyledTable 
@@ -29,6 +30,6 @@ export const TableWrapped = ({columns, data, rowSelection, selectionType = 'chec
             />
     </div>
   );
-};
+}, isEqual);
 
 export default TableWrapped;

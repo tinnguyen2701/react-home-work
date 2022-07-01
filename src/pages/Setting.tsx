@@ -1,7 +1,7 @@
-import { Button, Divider, Modal } from "antd";
+import { Divider } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { Field, Formik, FormikProps } from "formik";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import ButtonWrapped from "../components/Button/ButtonWrapped";
 import ModalWrapped from "../components/Modal/ModalWrapped";
 import { ISelectProp, SelectWrapped } from "../components/Select/SelectWrapped";
@@ -62,37 +62,43 @@ export const SettingsPage = () => {
     },
   ];
 
-  const onChangeDropdown = (val: string) : void => {
+  const onChangeDropdown = useCallback((val: string) => {
     setClassIdSelected(val);
     prefetchStudentCB();
-  }
+  }, [prefetchStudentCB]);
 
-  const showModal = () => {
+  const showModal = useCallback(() => {
     setVisible(true);
-  };
+  }, []);
 
-  const handleOk = () => {
+
+  const handleOk = useCallback(() => {
     setConfirmLoading(true);
     
     setTimeout(() => {
       setVisible(false);
       setConfirmLoading(false);
     }, 2000);
-  };
+  }, []);
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     console.log('Clicked cancel button');
     setVisible(false);
-  };
+  }, []);
 
-      
   return (
       <>
-          <SelectWrapped onChanged={onChangeDropdown} datasource={classes} isLoading={isLoadingClasses} showSearch={true} style={{width: 400}}/>
+          <SelectWrapped onChanged={onChangeDropdown} datasource={classes} isLoading={isLoadingClasses} showSearch={true} style={{width: 400}}/> 
 
-          <ButtonWrapped type={"primary"} style={{float: "right"}} onClick={showModal}>Add new student</ButtonWrapped>
+          <ButtonWrapped type={"text"} style={{float: "right"}} onClick={showModal}>Add new student</ButtonWrapped>
 
-          <ModalWrapped title="Add new student" visible={visible} onOk={handleOk} confirmLoading={confirmLoading} onCancel={handleCancel}>
+          <ModalWrapped 
+            title="Add new student" 
+            visible={visible} 
+            onOk={handleOk} 
+            confirmLoading={confirmLoading} 
+            onCancel={handleCancel}
+          >
             <Formik<FormModel> 
               initialValues={{firstName: "", lastName: "", classId: ''}} 
               validationSchema={Yup.object({

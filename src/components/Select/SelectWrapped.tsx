@@ -1,5 +1,7 @@
 import { Select } from "antd";
+import React from "react";
 import { StyledSelect } from "./styles";
+import { isEqual } from 'lodash'
 
 export interface ISelectProp {
     label: string,
@@ -17,7 +19,7 @@ interface selectProps<T> {
     placeholder?: string
 }
 
-export const SelectWrapped = ({
+export const SelectWrapped = React.memo(({
     datasource,
     onChanged,
     isLoading,
@@ -26,7 +28,6 @@ export const SelectWrapped = ({
     placeholder="Search to Select",
     ...props
 }: selectProps<ISelectProp>) => {
-    
     const { Option } = Select;
 
     const propFilter = (isFilter ? {
@@ -52,4 +53,4 @@ export const SelectWrapped = ({
             }
         </StyledSelect>
     );
-};
+}, isEqual);

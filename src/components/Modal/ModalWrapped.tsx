@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyledModal } from './styles';
-
+import { isEqual } from 'lodash'
 
 interface modalProps {
     title: string,
@@ -11,22 +11,28 @@ interface modalProps {
     confirmLoading?: boolean
 }
 
-export const ModalWrapped = ({title, visible, onOk, onCancel, confirmLoading, children, ...props }: modalProps) => {
-
+export const ModalWrapped = React.memo(({
+  title, 
+  visible, 
+  onOk, 
+  onCancel, 
+  confirmLoading, 
+  children, 
+  ...props 
+}
+  : modalProps) => {
   return (
-    <div>
-        <StyledModal
-            title = {title}
-            visible = {visible}
-            onOk = {() => onOk()}
-            onCancel = {() => onCancel()}
-            confirmLoading = {confirmLoading}
-            {...props}
-        >
-            {children}
-        </StyledModal>
-    </div>
+      <StyledModal
+          title = {title}
+          visible = {visible}
+          onOk = {() => onOk()}
+          onCancel = {() => onCancel()}
+          confirmLoading = {confirmLoading}
+          {...props}
+      >
+          {children}
+      </StyledModal>
   );
-};
+}, isEqual);
 
 export default ModalWrapped;
