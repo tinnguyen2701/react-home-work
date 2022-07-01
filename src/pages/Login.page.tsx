@@ -1,11 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../hooks/appHook";
 import { useLoginUserMutation } from "../redux/api/authApi";
-import { userApi } from "../redux/api/userApi";
 
 export const LoginPage = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [
     loginUser, // This is the mutation trigger
@@ -22,7 +19,6 @@ export const LoginPage = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     loginUser({email: "123", password: "456"}).unwrap().then(async () => {
-        await dispatch(userApi.endpoints.getMe.initiate(null));
         navigate("/dashboard/profile", {replace: true});
     });
   };
